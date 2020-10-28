@@ -1,0 +1,6 @@
+﻿  postfix.cpp
+c:\users\troeg\mp2-lab3-postfix\сысоев\base\postfix.cpp(34): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\troeg\mp2-lab3-postfix\сысоев\base\postfix.cpp(79): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+  sample_postfix.cpp
+  Создание кода...
+LINK : fatal error LNK1104: не удается открыть файл "gtest.lib"
