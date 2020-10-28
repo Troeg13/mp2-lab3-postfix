@@ -12,13 +12,13 @@ class TStack
 public:
 
 	TStack(int _size);
-	TStack(const TStack<T> &S);
 	~TStack();
 	bool IsEmpty();
 	bool IsFull();
 	void Put(T elem);
 	T Get();
 	int Cardinality();
+	int GetSize();
 	T Head();
 };
 
@@ -29,17 +29,6 @@ TStack<T>::TStack(int _size) : size(_size), top(-1)
 		throw size;
 	pMem = new T[size];
 }
-
-template <class T> //конструктор копирования
-TStack<T>::TStack(const TStack<T> &S) : size(S.size), top(S.top)
-{
-	pMem = new T[size];
-	for (int i = 0; i < top; i++)
-	{
-		pMem[i] = S.pMem[i];
-	}
-}
-
 
 template <class T>
 TStack<T>::~TStack()
@@ -58,7 +47,7 @@ bool TStack<T>::IsEmpty()
 template <class T>
 bool TStack<T>::IsFull()
 {
-	if (top == size - 1) return 1;
+	if (top == (size - 1)) return 1;
 	return 0;
 }
 
@@ -66,14 +55,16 @@ bool TStack<T>::IsFull()
 template <class T>
 void TStack<T>::Put(T elem)
 {
-	if (IsFull()) throw;
+	if (IsFull())
+		throw -1;
 	pMem[++top] = elem;
 }
 
 template <class T>
 T TStack<T>::Get()
 {
-	if (IsEmpty()) throw;
+	if (IsEmpty()) 
+		throw -1;
 	return pMem[top--];
 }
 
@@ -81,6 +72,12 @@ template <class T>
 int TStack<T>::Cardinality()
 {
 	return top + 1;
+}
+
+template <class T>
+int TStack<T>::GetSize()
+{
+	return size;
 }
 
 template <class T>

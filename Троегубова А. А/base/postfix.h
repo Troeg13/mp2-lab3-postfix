@@ -21,18 +21,17 @@ class TPostfix
 					  {"exp",make_pair(2,1)}, {"ln",make_pair(2,1)}, {"^",make_pair(3,2)}, {"*",make_pair(4,2)}, {"/", make_pair(4,2)}, {"+", make_pair(5,2)},  {"-",make_pair(5,2)} };
 	//fist - приоритет; second - кол-во операндов
 
-
 	vector<string> Сonvert(string exp);
 	vector<int> PositionOfBrackets(vector<string> exp);
 	vector<string> VectorSegment(vector<string> exp, int ix);
 	vector<string> VectorSegmentInBrackets(vector<string> exp);
 	string Support(vector<string> exp);
+	void ToPostfix();
 public:
 	TPostfix();
 	TPostfix(string exp);
 	string GetInfix();
 	string GetPostfix();
-	void ToPostfix();
 	double Calculate(); // Ввод переменных, вычисление по постфиксной форме
 };
 
