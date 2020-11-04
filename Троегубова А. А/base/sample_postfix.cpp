@@ -13,7 +13,8 @@ using namespace std;
 int main()
 {
   setlocale(LC_ALL, "Russian");
-  TPostfix postfix("- cos ( pi / a ) + b");
+  //TPostfix postfix("- cos ( pi / a ) + b");
+  TPostfix postfix("- cos pi / a + b");
   double res;
   cout << " Арифметическое выражение: " << postfix.GetInfix() << endl;
   cout << " Постфиксная форма: " << postfix.GetPostfix() << endl;

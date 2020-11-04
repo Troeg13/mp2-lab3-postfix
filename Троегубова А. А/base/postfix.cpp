@@ -135,6 +135,9 @@ vector<string> TPostfix::CheckingTheCorrectness(vector<string> exp)
 						throw "invalid expression";
 				}
 
+				if ((operation.find(exp[i])->second.second == 1) && (exp[i + 1] != "("))
+					throw "invalid expression";
+
 				if (exp[i] == "(")
 				{
 					if ((exp[i + 1] == "*") || (exp[i + 1] == "/") || (exp[i + 1] == "^"))
