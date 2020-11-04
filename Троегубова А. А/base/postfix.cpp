@@ -83,10 +83,77 @@ vector<string> TPostfix::VectorSegmentInBrackets(vector<string> exp)
 	return res;
 }
 
+vector<string> TPostfix::CheckingTheCorrectness(vector<string> exp)
+{
+	TStack<string> brackets(exp.size() / 2);
+	string tmp;
+	for (int i = 0; i < exp.size(); i++)
+	{
+		if (exp[i] == "(")
+			brackets.Put("(");
+		if (exp[i] == ")")
+		{
+			if (brackets.IsEmpty())
+				throw "invalid expression";
+			tmp = brackets.Get();
+		}
+			
+	}
+	if (!brackets.IsEmpty())
+		throw "invalid expression";
+
+	if ((exp[0] == "*") || (exp[0] == "/") || (exp[0] == "^")) 
+		throw "invalid expression";
+
+	for (int i = 0; i < exp.size() - 1; i++)
+	{
+		if ((operation.find(exp[i]) == operation.end()) && (operation.find(exp[i + 1]) == operation.end()))
+			throw "invalid expression";
+
+		if ((exp[i] == "(") && (exp[i + 1] == ")"))
+			throw "invalid expression";
+
+		if ((exp[i] == "-") && (exp[i + 1] == "-"))
+		{
+			exp[i + 1] = "+";
+			exp.erase(exp.begin() + i);
+			i -= 1;
+		}
+		else
+		{
+			if (((exp[i] == "-") && (exp[i + 1] == "+")) || ((exp[i] == "+") && (exp[i + 1] == "-")))
+			{
+				exp[i + 1] = "-";
+				exp.erase(exp.begin() + i);
+				i -= 1;
+			}
+			else
+			{
+				if ((operation.find(exp[i]) != operation.end() && (operation.find(exp[i + 1]) != operation.end())))
+				{
+					if ((operation.find(exp[i]) -> second.second == 2) && (operation.find(exp[i + 1])->second.second == 2))
+						throw "invalid expression";
+				}
+
+				if (exp[i] == "(")
+				{
+					if ((exp[i + 1] == "*") || (exp[i + 1] == "/") || (exp[i + 1] == "^"))
+						throw "invalid expression";
+				}
+
+				if ((operation.find(exp[i]) != operation.end()) && (exp[i] != ")") && (exp[i + 1] == ")"))
+					throw "invalid expression";
+			}
+		}
+		
+	}
+	return exp;
+}
+
 void TPostfix::ToPostfix()//infix -> postfix
 {
 	vector<string> converted_infix = Сonvert(infix);
-	postfix = Support(converted_infix);
+	postfix = Support(CheckingTheCorrectness(converted_infix));
 }
 
 string TPostfix::Support(vector<string> exp)
@@ -155,7 +222,7 @@ double TPostfix::Calculate()
 
 	for (int i = 0; i < exp1.size(); i++)
 	{
-		if ((operation.find(exp1[i]) == operation.end()) && (variable.find(exp1[i]) == variable.end()))
+		if ((operation.find(exp1[i]) == operation.end()) && (variable.find(exp1[i]) == variable.end()) && (constants.find(exp1[i]) == constants.end()))
 		{
 			cout << " " << exp1[i] << "  =  ";
 			cin >> tmp;
@@ -163,17 +230,25 @@ double TPostfix::Calculate()
 		}
 	}
 
-	TStack<double> var(variable.size());
 	map <string, double> ::iterator it1;
 	map <string, pair<int, int>> ::iterator it2;
 	exp1 = Сonvert(postfix);
-	
+	TStack<double> var(exp1.size());
+
 	for (int i = 0; i < exp1.size(); i++)
 	{
-		if (operation.find(exp1[i]) == operation.end())//переменная?
+		if (operation.find(exp1[i]) == operation.end())//переменная или константа?
 		{
-			it1 = variable.find(exp1[i]);
-			var.Put(it1->second);
+			if (variable.find(exp1[i]) != variable.end())//переменная?
+			{
+				it1 = variable.find(exp1[i]);
+				var.Put(it1->second);
+			}
+			else//константа
+			{
+				it1 = constants.find(exp1[i]);
+				var.Put(it1->second);
+			}
 		}
 		else
 		{
@@ -183,10 +258,15 @@ double TPostfix::Calculate()
 				res = var.Get() + var.Get();
 				var.Put(res);
 			}
-			if (it2->first == "-")
+			if (it2->first == "-") //возможность посчитать выражение вида - a + b
 			{
-				tmp = var.Get();
-				res = var.Get() - tmp;
+				if (var.Cardinality() == 1)
+					res = 0 - var.Get();
+				else
+				{
+					tmp = var.Get();
+					res = var.Get() - tmp;
+				}
 				var.Put(res);
 			}
 			if (it2->first == "*")

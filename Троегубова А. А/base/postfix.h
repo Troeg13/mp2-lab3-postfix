@@ -3,12 +3,12 @@
 
 #include<map>
 #include <iostream>
+#include <cmath>
 #include <utility>
 #include <string>
 #include<vector>
 #include <sstream>
 #include <iostream>
-#include <cmath>
 #include "stack.h"
 
 using namespace std;
@@ -21,11 +21,14 @@ class TPostfix
 					  {"exp",make_pair(2,1)}, {"ln",make_pair(2,1)}, {"^",make_pair(3,2)}, {"*",make_pair(4,2)}, {"/", make_pair(4,2)}, {"+", make_pair(5,2)},  {"-",make_pair(5,2)} };
 	//fist - приоритет; second - кол-во операндов
 
+	map<string, double> constants = { {"pi", 3.14159265358979323846}, {"e", 2.71828182845904523536} };
+
 	vector<string> Сonvert(string exp);
 	vector<int> PositionOfBrackets(vector<string> exp);
 	vector<string> VectorSegment(vector<string> exp, int ix);
 	vector<string> VectorSegmentInBrackets(vector<string> exp);
 	string Support(vector<string> exp);
+	vector<string> CheckingTheCorrectness(vector<string> exp);
 	void ToPostfix();
 public:
 	TPostfix();

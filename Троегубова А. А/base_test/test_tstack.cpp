@@ -81,7 +81,7 @@ TEST(TStack, true_when_stack_is_full)//проверка на пустату стека
 	EXPECT_EQ(true, st.IsFull());
 }
 
-TEST(TStack, throws_when_get_element_in_empty_stack)
+TEST(TStack, throws_when_retutn_element_from_empty_stack)
 {
 	TStack<int> st(3);
 	ASSERT_ANY_THROW(st.Get());
