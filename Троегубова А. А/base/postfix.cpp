@@ -129,13 +129,13 @@ vector<string> TPostfix::CheckingTheCorrectness(vector<string> exp)
 			}
 			else
 			{
-				if ((operation.find(exp[i]) != operation.end() && (operation.find(exp[i + 1]) != operation.end())))
+				if ((operation.find(exp[i]) != operation.end()) && (operation.find(exp[i + 1]) != operation.end()))
 				{
 					if ((operation.find(exp[i]) -> second.second == 2) && (operation.find(exp[i + 1])->second.second == 2))
 						throw "invalid expression";
 				}
 
-				if ((operation.find(exp[i])->second.second == 1) && (exp[i + 1] != "("))
+				if ((operation.find(exp[i]) != operation.end()) && (operation.find(exp[i])->second.second == 1) && (exp[i + 1] != "("))
 					throw "invalid expression";
 
 				if (exp[i] == "(")
@@ -221,7 +221,7 @@ double TPostfix::Calculate()
 	map<string, double> variable;
 	double tmp;
 	double res = 0;
-	cout << infix << endl;
+	cout << " " << infix << endl;
 
 	for (int i = 0; i < exp1.size(); i++)
 	{
